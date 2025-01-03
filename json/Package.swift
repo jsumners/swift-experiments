@@ -5,9 +5,9 @@ import PackageDescription
 let package = Package(
   name: "JsonExperiment",
 
-  // products: [
-  //   .library(name: "Foo", targets: ["Foo"])
-  // ],
+  products: [
+    .library(name: "Foo", targets: ["Foo"])
+  ],
 
   targets: [
     .target(name: "Foo", dependencies: []),

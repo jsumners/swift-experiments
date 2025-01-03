@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-import Company
+@testable import Foo
 
 @Test
 func decodeCompany() {
@@ -22,7 +22,7 @@ func decodeCompany() {
   """.data(using: .utf8)!
 
   let decoder = JSONDecoder()
-  let decoded: Company = try decoder.decode(Company.self, from: input)
+  let decoded: Company = try! decoder.decode(Company.self, from: input)
   #expect(decoded.name == "Romaguera-Crona")
   #expect(decoded.catchPhrase == "Multi-layered client-server neural-net")
   #expect(decoded.moto == "harness real-time e-markets")
