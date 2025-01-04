@@ -1,5 +1,9 @@
 import Testing
 import Foundation
+// The "@testable" attribute (https://docs.swift.org/swift-book/documentation/the-swift-programming-language/attributes/#testable)
+// mutates the target module making "private" exports (the default) available
+// as "public" exports. Without this attribute, this experiment would not
+// compile.
 @testable import Foo
 
 @Test
