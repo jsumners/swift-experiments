@@ -24,6 +24,14 @@ be a corresponding directory in `Tests`, e.g. `Tests/Foo`.
 I _think_ the authors of Swift are expecting this project to suffice as
 documentation around all of this: https://github.com/apple/example-package-playingcard.
 
+According to my experimentation in the [json experiment](./json):
+
+1. Swift files do not need be capitalized, e.g. "foo.swift" is as acceptable
+as "Foo.swift".
+2. Packages share symbols without needing to import same package files. For
+example, `Person` relies on `Address`, but `Address` is defined in
+`address.swift` and is _not_ imported by `Person.swift`.
+
 ### Package.swift
 
 Each compile "target" needs a [`Package.swift`][pkg] file. This is roughly
