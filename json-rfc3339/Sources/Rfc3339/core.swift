@@ -4,12 +4,14 @@ struct Article: Decodable {
     enum CodingKeys: String, CodingKey {
         case author, title, body
         case createdAt = "created_at"
+        case postDate = "post_date"
     }
 
     let author: String
     let title: String
     let body: String
     let createdAt: Date
+    let postDate: Date
 
     static let decoder = {
         let decoder = JSONDecoder()
@@ -18,26 +20,18 @@ struct Article: Decodable {
     }()
 }
 
-extension Formatter {
-    static func rfc3339Formatter() -> ISO8601DateFormatter {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        return formatter
-    }
+extension ParseStrategy where Self == Date.ISO8601FormatStyle {
+    static var dateTime: Self { .init(includingFractionalSeconds: true) }
+    static var fullDate: Self { iso8601.year().month().day() }
 }
 
 extension JSONDecoder.DateDecodingStrategy {
-    static let rfc3339 = custom { decoder in
-        let dateStr = try decoder.singleValueContainer().decode(String.self)
-        let formatter = Formatter.rfc3339Formatter()
-        if let date = formatter.date(from: dateStr) {
-            return date
+    static let rfc3339 = custom {
+        let string = try $0.singleValueContainer().decode(String.self)
+        do {
+            return try .init(string, strategy: .dateTime)
+        } catch {
+            return try .init(string, strategy: .fullDate)
         }
-        throw DecodingError.dataCorrupted(
-            DecodingError.Context(
-                codingPath: decoder.codingPath,
-                debugDescription: "Invalid date"
-            )
-        )
     }
 }

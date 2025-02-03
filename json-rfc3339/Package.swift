@@ -5,6 +5,12 @@ import PackageDescription
 let package = Package(
     name: "JsonRfc3339",
 
+    // This definition let's us skip adding `@available(macOS 12, *)`
+    // all over the damn place.
+    platforms: [
+        .macOS(.v12)
+    ],
+
     products: [
         .library(name: "JsonRfc3339", targets: ["JsonRfc3339"])
     ],
